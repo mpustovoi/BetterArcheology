@@ -1,5 +1,6 @@
 package net.Pandarix.betterarcheology.block.entity;
 
+import net.Pandarix.betterarcheology.BetterArcheologyConfig;
 import net.Pandarix.betterarcheology.block.custom.RadianceTotemBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -18,28 +19,36 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class RadianceTotemBlockEntity extends BlockEntity {
-    public RadianceTotemBlockEntity(BlockPos pos, BlockState state) {
+public class RadianceTotemBlockEntity extends BlockEntity
+{
+    public RadianceTotemBlockEntity(BlockPos pos, BlockState state)
+    {
         super(ModBlockEntities.RADIANCE_TOTEM, pos, state);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, RadianceTotemBlockEntity blockEntity)
     {
+        if (!BetterArcheologyConfig.radianceTotemEnabled.get() || !BetterArcheologyConfig.totemsEnabled.get())
+        {
+            return;
+        }
         // Apply the effects of the totem every 10 ticks (.5 seconds) to reduce server stress
         if (world.getRandom().nextBetween(1, 10) == 1)
         {
             //get all entities in a 10 block radius
-            List<LivingEntity> livingEntities = world.getEntitiesByClass(LivingEntity.class, Box.of(pos.toCenterPos(), 20, 20, 20), EntityPredicates.VALID_LIVING_ENTITY);
+            int totemRadius = BetterArcheologyConfig.radianceTotemRadius.get() * 2;
+
+            List<LivingEntity> livingEntities = world.getEntitiesByClass(LivingEntity.class, Box.of(pos.toCenterPos(), totemRadius, totemRadius, totemRadius), EntityPredicates.VALID_LIVING_ENTITY);
             applyGlowingEffect(livingEntities, state);
 
-            // 1/6 chance to hurt all monsters --> 1/6 chance every .5 seconds = damaging every 3 seconds
-            if (world.getRandom().nextBetween(1, 6) == 1)
+            //damages every hostile monster with a chance of 1/(configValue*2), resulting in an average damage tick every configValue seconds
+            if (world.getRandom().nextBetween(1, BetterArcheologyConfig.radianceTotemDamageTickAverage.get() * 2) == 1)
             {
                 for (LivingEntity livingEntity : livingEntities)
                 {
                     if (livingEntity instanceof HostileEntity monster)
                     {
-                        monster.damage(monster.getDamageSources().magic(), 4);
+                        monster.damage(monster.getDamageSources().magic(), BetterArcheologyConfig.radianceTotemDamage.get());
                         world.playSound(null, monster.getBlockPos().getX(), monster.getBlockPos().getY(), monster.getBlockPos().getZ(), SoundEvents.BLOCK_AMETHYST_BLOCK_HIT, SoundCategory.HOSTILE, 0.5f, 0.5f);
                     }
                 }

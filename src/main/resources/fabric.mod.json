@@ -37,7 +37,8 @@
     "fabric-api": "*",
     "minecraft": "~1.20",
     "java": ">=17",
-    "yungsapi": ">=${yungsapi_mc_version}-Fabric-${yungsapi_version}"
+    "yungsapi": ">=${yungsapi_mc_version}-Fabric-${yungsapi_version}",
+    "supermartijn642configlib": ">=1.1.8a"
   },
   "suggests": {
     "another-mod": "*"

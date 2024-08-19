@@ -1,5 +1,6 @@
 package net.Pandarix.betterarcheology.block.entity;
 
+import net.Pandarix.betterarcheology.BetterArcheologyConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -11,17 +12,25 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ChickenFossilBlockEntity extends BlockEntity {
-    public ChickenFossilBlockEntity(BlockPos pos, BlockState state) {
+public class ChickenFossilBlockEntity extends BlockEntity
+{
+    public ChickenFossilBlockEntity(BlockPos pos, BlockState state)
+    {
         super(ModBlockEntities.CHICKEN_FOSSIL, pos, state);
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, ChickenFossilBlockEntity blockEntity) {
+    public static void tick(World world, BlockPos pos, BlockState state, ChickenFossilBlockEntity blockEntity)
+    {
+        if (!BetterArcheologyConfig.fossilEffectsEnabled.get())
+        {
+            return;
+        }
         //get players in bounding box of 10 blocks
         List<PlayerEntity> playersInRange = world.getNonSpectatingEntities(PlayerEntity.class, (new Box(pos).expand(10)));
 
         //give every player in range slow-falling for 10 seconds, particles are not being displayed for ux
-        for (PlayerEntity player : playersInRange) {
+        for (PlayerEntity player : playersInRange)
+        {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 200, 0, false, false));
         }
     }
