@@ -27,6 +27,9 @@
     ],
     "jei_mod_plugin": [
       "net.Pandarix.betterarcheology.compat.jei.JeiPlugin"
+    ],
+    "fabric-datagen": [
+      "net.Pandarix.betterarcheology.datagen.ModDataGenerator"
     ]
   },
   "mixins": [

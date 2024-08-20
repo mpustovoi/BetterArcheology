@@ -42,6 +42,8 @@ public class BetterArcheologyConfig
     public static final Supplier<Boolean> ocelotFossilEffectsEnabled;
     public static final Supplier<Boolean> wolfFossilEffectsEnabled;
     public static final Supplier<Boolean> guardianFossilEffectsEnabled;
+    //MISC
+    public static final Supplier<Boolean> shootBombsFromDispensers;
 
     static
     {
@@ -115,6 +117,10 @@ public class BetterArcheologyConfig
             guardianFossilEffectsEnabled = builder.comment("En-/Disables the water breathing effect of the guardian fossil.").define("guardianFossilEffectsEnabled", true);
         builder.pop();
 
+        builder.push("Misc");
+
+        builder.pop();
+            shootBombsFromDispensers = builder.comment("En-/Disables the ability to shoot bombs from dispensers.").define("shootBombsFromDispensers", false);
         builder.build();
     }
 

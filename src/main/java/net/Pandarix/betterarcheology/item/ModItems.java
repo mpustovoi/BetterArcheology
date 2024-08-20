@@ -1,8 +1,13 @@
 package net.Pandarix.betterarcheology.item;
 
 import net.Pandarix.betterarcheology.BetterArcheology;
+import net.Pandarix.betterarcheology.block.custom.FossilBaseBlock;
+import net.Pandarix.betterarcheology.block.custom.FossilBaseBodyBlock;
+import net.Pandarix.betterarcheology.block.custom.FossilBaseHeadBlock;
+import net.Pandarix.betterarcheology.block.custom.FossilBaseWithEntityBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
@@ -53,5 +58,13 @@ public class ModItems {
     public static void registerModItems() {
         //status message
         BetterArcheology.LOGGER.info("Registering Items from " + BetterArcheology.MOD_ID);
+    }
+
+    public static boolean isFossil(Block block)
+    {
+        return block instanceof FossilBaseBodyBlock
+                || block instanceof FossilBaseWithEntityBlock
+                || block instanceof FossilBaseHeadBlock
+                || block instanceof FossilBaseBlock;
     }
 }
