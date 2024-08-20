@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +33,12 @@ public class BetterBrushItem extends BrushItem {
         return brushingSpeed;
     }
 
+    @Override
+    public UseAction getUseAction(ItemStack stack)
+    {
+        return UseAction.BRUSH;
+    }
+
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         if (remainingUseTicks >= 0 && user instanceof PlayerEntity playerEntity) {
             HitResult hitResult = this.getHitResult(user);
@@ -46,8 +53,7 @@ public class BetterBrushItem extends BrushItem {
                         this.addDustParticles(world, blockHitResult, blockState, user.getRotationVec(0.0F), arm);
                         Block var15 = blockState.getBlock();
                         SoundEvent soundEvent;
-                        if (var15 instanceof BrushableBlock) {
-                            BrushableBlock brushableBlock = (BrushableBlock)var15;
+                        if (var15 instanceof BrushableBlock brushableBlock) {
                             soundEvent = brushableBlock.getBrushingSound();
                         } else {
                             soundEvent = SoundEvents.ITEM_BRUSH_BRUSHING_GENERIC;
@@ -56,8 +62,7 @@ public class BetterBrushItem extends BrushItem {
                         world.playSound(playerEntity, blockPos, soundEvent, SoundCategory.BLOCKS);
                         if (!world.isClient()) {
                             BlockEntity var18 = world.getBlockEntity(blockPos);
-                            if (var18 instanceof BrushableBlockEntity) {
-                                BrushableBlockEntity brushableBlockEntity = (BrushableBlockEntity)var18;
+                            if (var18 instanceof BrushableBlockEntity brushableBlockEntity) {
                                 boolean bl2 = brushableBlockEntity.brush(world.getTime(), playerEntity, blockHitResult.getSide());
                                 if (bl2) {
                                     EquipmentSlot equipmentSlot = stack.equals(playerEntity.getEquippedStack(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
