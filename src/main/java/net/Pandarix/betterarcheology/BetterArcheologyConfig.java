@@ -118,9 +118,9 @@ public class BetterArcheologyConfig
         builder.pop();
 
         builder.push("Misc");
-
-        builder.pop();
             shootBombsFromDispensers = builder.comment("En-/Disables the ability to shoot bombs from dispensers.").define("shootBombsFromDispensers", false);
+        builder.pop();
+
         builder.build();
     }
 
