@@ -16,7 +16,7 @@ public class AddCreeperGoalsMixin
     @Redirect(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
     private void injectMethod(GoalSelector instance, int priority, Goal goal)
     {
-        if (BetterArcheologyConfig.fossilEffectsEnabled.get())
+        if (BetterArcheologyConfig.fossilEffectsEnabled.get() && BetterArcheologyConfig.ocelotFossilEffectsEnabled.get())
         {
             instance.add(priority, goal); //add what would've been added anyway
             instance.add(priority, new FleeBlockGoal<>((CreeperEntity) (Object) this, FleeFromBlockEntity.class, 1.0, 1.2));

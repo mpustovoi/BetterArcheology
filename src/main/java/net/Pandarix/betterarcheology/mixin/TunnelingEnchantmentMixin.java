@@ -16,12 +16,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MiningToolItem.class)
-public class TunnelingEnchantmentMixin {
+public class TunnelingEnchantmentMixin
+{
     @Inject(method = "postMine", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damage(ILnet/minecraft/entity/LivingEntity;Ljava/util/function/Consumer;)V", shift = At.Shift.AFTER))
-    private void injectMethod(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+    private void injectMethod(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir)
+    {
 
         //if it is enabled in the config and the stack exists, has Enchantments & is Tunneling
-        if (BetterArcheologyConfig.artifactsEnabled.get() && !miner.isSneaking() && !stack.isEmpty() && stack.hasEnchantments() && EnchantmentHelper.getLevel(ModEnchantments.TUNNELING, stack) == 1)
+        if (BetterArcheologyConfig.artifactsEnabled.get() && BetterArcheologyConfig.tunnelingEnabled.get() && !miner.isSneaking() && !stack.isEmpty() && stack.hasEnchantments() && EnchantmentHelper.getLevel(ModEnchantments.TUNNELING, stack) == 1)
         {
             //if the tool is right for the block that should be broken
             //if the difference of the hardness of the block below is not more than 3,75
@@ -29,7 +31,8 @@ public class TunnelingEnchantmentMixin {
 
             if (stack.isSuitableFor(state) && stack.isSuitableFor(blockStateBelow) && Math.abs((world.getBlockState(pos.down()).getHardness(world, pos.down()) - world.getBlockState(pos).getHardness(world, pos))) <= 3.75)
             {
-                if(miner instanceof ServerPlayerEntity serverPlayer){
+                if (miner instanceof ServerPlayerEntity serverPlayer)
+                {
                     serverPlayer.interactionManager.tryBreakBlock(pos.down());
                 }
             }

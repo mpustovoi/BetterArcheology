@@ -26,11 +26,15 @@ public class PenetratingStrikeEnchantment extends ArtifactEnchantment
     @Override
     public boolean isAcceptableItem(ItemStack stack)
     {
-        if (stack.getItem() instanceof AxeItem)
+        if (BetterArcheologyConfig.penetratingStrikeEnabled.get() && BetterArcheologyConfig.artifactsEnabled.get())
         {
-            return true;
+            if (stack.getItem() instanceof AxeItem || stack.getItem() instanceof SwordItem)
+            {
+                return true;
+            }
+            return super.isAcceptableItem(stack);
         }
-        return super.isAcceptableItem(stack);
+        return false;
     }
 
     //Enchantment Functionality-------------------------------------------------------------------------//
@@ -48,7 +52,7 @@ public class PenetratingStrikeEnchantment extends ArtifactEnchantment
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level)
     {
-        if (!BetterArcheologyConfig.artifactsEnabled.get())
+        if (!BetterArcheologyConfig.artifactsEnabled.get() || !BetterArcheologyConfig.penetratingStrikeEnabled.get())
         {
             return;
         }

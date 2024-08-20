@@ -2,6 +2,7 @@ package net.Pandarix.betterarcheology;
 
 import net.Pandarix.betterarcheology.block.ModBlocks;
 import net.Pandarix.betterarcheology.block.entity.ModBlockEntities;
+import net.Pandarix.betterarcheology.compat.jei.recipe.ModRecipeSerializers;
 import net.Pandarix.betterarcheology.enchantment.ModEnchantments;
 import net.Pandarix.betterarcheology.entity.ModEntityTypes;
 import net.Pandarix.betterarcheology.item.ModItemGroup;
@@ -41,6 +42,7 @@ public class BetterArcheology implements ModInitializer {
 
         ModBlockEntities.registerBlockEntities(); //registers Block-Entities
         ModScreenHandlers.registerAllScreenHandlers(); //registers all Screen-Handlers
+        ModRecipeSerializers.registerSerializers();
 
         ModVillagers.registerVillagers(); //registers all Villagers from BetterArcheology
         ModVillagers.registerTrades(); //registers all Villager Trades
